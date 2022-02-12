@@ -49,6 +49,10 @@ MemoryTile := Rectangle {
 export AppWindow := Window {
     width: 326px;
     height: 326px;
+
+    callback check_if_pair_solved();
+    property <bool> disable_tiles;
+
     property <[TileData]> memory_tiles: [
         {image: @image-url("icons/at.png")},
         {image: @image-url("icons/balance-scale.png")},
@@ -68,7 +72,10 @@ export AppWindow := Window {
         open_curtain: tile.image_visible || tile.solved;
         solved: tile.solved;
         clicked => { 
-            tile.image_visible = !tile.image_visible;
+            if (!root.disable_tiles) {
+                tile.image_visible = !tile.image_visible;
+                root.check_if_pair_solved();
+            }
          }
     }
 }
